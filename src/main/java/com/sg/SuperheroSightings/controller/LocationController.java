@@ -7,17 +7,24 @@ package com.sg.SuperheroSightings.controller;
 
 import com.sg.SuperheroSightings.entities.Location;
 import com.sg.SuperheroSightings.entities.Sightings;
+import com.sg.SuperheroSightings.entities.Superpower;
 import com.sg.SuperheroSightings.repositories.HeroVillainRepository;
 import com.sg.SuperheroSightings.repositories.LocationRepository;
 import com.sg.SuperheroSightings.repositories.OrganizationRepository;
 import com.sg.SuperheroSightings.repositories.SightingRepository;
 import com.sg.SuperheroSightings.repositories.SuperpowerRepository;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -43,9 +50,17 @@ public class LocationController {
     @Autowired
     SightingRepository sighting;
     
+    Set<ConstraintViolation<Location>> violations = new HashSet<>();
+    
     @PostMapping("addLocation")
     public String addLocation(Location location) {
-        locations.save(location);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(location);
+
+        if(violations.isEmpty()) {
+            locations.save(location);
+        }
+        
         return "redirect:/locations";
     }
     
@@ -67,6 +82,7 @@ public class LocationController {
     @GetMapping("/locations")
     public String viewLocations(Model model) {
         model.addAttribute("locations", locations.findAll());
+        model.addAttribute("errors", violations);
 
         return "locations";
     }
@@ -80,8 +96,13 @@ public class LocationController {
     }
     
     @PostMapping("editLocation")
-    public String editLocation(@Valid Location location){
+    public String editLocation(@Valid Location location, BindingResult result){
+        if(result.hasErrors()) {
+            return "viewLocation";
+        }
+        
         locations.save(location);
+        
         return"redirect:/locations";
     }
 }

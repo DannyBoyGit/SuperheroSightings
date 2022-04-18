@@ -113,6 +113,10 @@
                             <div class="col-9">
                                 <input type="text" name="name" 
                                        id="name" class="form-control" th:value="${location.name}"/>
+                                <div th:if="${#fields.hasErrors('location.name')}">
+                                <p th:each="error : ${#fields.errors('location.name')}" class="alert alert-danger"
+                                  th:text="${error}"> Bad name </p>
+                              </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -121,6 +125,10 @@
                             <div class="col-9">
                                 <input type="text" name="address" 
                                        id="address" class="form-control" th:value="${location.address}"/>
+                                <div th:if="${#fields.hasErrors('location.address')}">
+                                <p th:each="error : ${#fields.errors('location.address')}" class="alert alert-danger"
+                                  th:text="${error}"> Bad address </p>
+                              </div>
                             </div>
                         </div>
                         <div class="form-group row">

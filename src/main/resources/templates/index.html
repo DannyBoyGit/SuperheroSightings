@@ -75,7 +75,9 @@
                     </table>
                 </div>
             </div>
-          <div class="m-4" id="map" style="height: 400px; width: 100%;"></div>
+          <div class="row m-4">
+              <div id="map" class="col" style="height: 400px; width: 100%;"></div>
+          </div>
     </div>
     <!-- Optional JavaScript -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByllsCYfIvVQCyM2E_6mrazb_5DAxpVVI&callback=initMap&v=weekly" defer></script>
@@ -110,7 +112,7 @@
 
             // Set zoom level
             var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-                this.setZoom(8);
+                this.setZoom(3);
                 google.maps.event.removeListener(boundsListener);
             });
         }

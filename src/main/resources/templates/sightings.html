@@ -37,6 +37,11 @@
             </div>
         </div>
           <div class="row m-4 border border-dark">
+              <div class="col-12 m-1 text-center" 
+                th:if="${!errors.isEmpty()}">
+                    <p class="alert alert-danger" th:each="error : ${errors}" 
+                        th:text="${error.message}">Error message</p>
+                </div>
                 <div class="col-3 text-center m-3">
                     <span class="h3">Add Sighting</span>
                 </div>
@@ -68,7 +73,7 @@
                         <div class="form-group row">
                                <label for="addDate" class="col-3 col-form-label">Date:</label>
                                <div class="col-9">
-                                <input type="datetime-local" name="addDate" id="date" class="form-control"/>
+                                <input type="datetime-local" name="addDate" id="date" class="form-control" required/>
                                </div>
                          </div>
                         <button type="submit" class="btn btn-primary">Add Sighting</button>

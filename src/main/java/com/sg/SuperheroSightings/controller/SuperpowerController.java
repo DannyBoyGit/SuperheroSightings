@@ -12,11 +12,17 @@ import com.sg.SuperheroSightings.repositories.LocationRepository;
 import com.sg.SuperheroSightings.repositories.OrganizationRepository;
 import com.sg.SuperheroSightings.repositories.SightingRepository;
 import com.sg.SuperheroSightings.repositories.SuperpowerRepository;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -42,16 +48,25 @@ public class SuperpowerController {
     @Autowired
     SightingRepository sighting;
     
+    Set<ConstraintViolation<Superpower>> violations = new HashSet<>();
+    
     @PostMapping("addSuperpower")
     public String addSuperpower(Superpower superpower) {
-        power.save(superpower);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(superpower);
+
+        if(violations.isEmpty()) {
+            power.save(superpower);
+        }
+        
         return "redirect:/superpowers";
     }
     
     @GetMapping("/superpowers")
     public String viewSuperpowers(Model model) {
         model.addAttribute("superpowers", power.findAll());
-
+        model.addAttribute("errors", violations);
+        
         return "superpowers";
     }
     
@@ -60,7 +75,7 @@ public class SuperpowerController {
         List<HeroVillain> heros = heroes.findAll();
         
         for(HeroVillain hero : heros){
-            if(hero.getSuperpower().getId() == id){
+            if(hero.getSuperpower() != null && hero.getSuperpower().getId() == id){
                 hero.setSuperpower(null);
             }
         }
@@ -78,7 +93,10 @@ public class SuperpowerController {
     }
     
     @PostMapping("editSuperpower")
-    public String performEditSuperpower(@Valid Superpower superpower) {
+    public String performEditSuperpower(@Valid Superpower superpower, BindingResult result) {
+        if(result.hasErrors()) {
+            return "editSuperpower";
+        }
         power.save(superpower);
         
         return "redirect:/superpowers";

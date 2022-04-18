@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -26,10 +28,14 @@ public class Organization {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
+    @NotBlank(message = "Name must not be empty.")
+    @Size(max = 50, message="Name must be less than 50 characters.")
     @Column(nullable = false)
     private String name;
     @Column
     private String description;
+    @NotBlank(message = "Address/Contact must not be empty.")
+    @Size(max = 100, message="Address/Contact must be less than 100 characters.")
     @Column(name = "addresscontact", nullable = false)
     private String addressContact;
     

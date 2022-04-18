@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
 
 /**
  *
@@ -33,7 +35,7 @@ public class Sightings {
     @ManyToOne  
     @JoinColumn(name = "heroid")
     private HeroVillain hero;
-
+    @Past(message="Date must be in the past")
     private LocalDateTime date;
 
     public Sightings(int id) {

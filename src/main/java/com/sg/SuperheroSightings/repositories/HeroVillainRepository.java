@@ -18,8 +18,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface HeroVillainRepository extends JpaRepository<HeroVillain, Integer> {
-    @Query(value = "SELECT h.* from hero_villain h "
-            + "join hero_location hl on hl.heroId = h.Id "
-            + "where hl.date = ?1", nativeQuery=true)
-    List<HeroVillain> getHeroesForDate(String date);
+    
 }

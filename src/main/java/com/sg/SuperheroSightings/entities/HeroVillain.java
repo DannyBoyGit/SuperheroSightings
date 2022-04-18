@@ -20,6 +20,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -34,8 +36,12 @@ public class HeroVillain {
     @Lob
     @Column(name="heroimage", nullable=true)
     private byte[] heroimage;
+    @NotBlank(message = "Name must not be empty.")
+    @Size(max = 50, message="Name must be less than 50 characters.")
     @Column(nullable = false)
     private String name;
+    @NotBlank(message = "Description must not be empty.")
+    @Size(max = 255, message="Description must be less than 255 characters.")
     @Column(nullable = false)
     private String description;
     

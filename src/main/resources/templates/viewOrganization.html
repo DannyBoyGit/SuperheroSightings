@@ -84,7 +84,12 @@
               
           </div>
           <div class="row m-4 border border-dark" id="editDiv" style="display: none">
-                <div class="col-3 text-center m-3">
+              <div class="col-12 m-1 text-center" 
+                th:if="${!errors.isEmpty()}">
+                    <p class="alert alert-danger" th:each="error : ${errors}" 
+                        th:text="${error.message}">Error message</p>
+                </div>  
+              <div class="col-3 text-center m-3">
                     <span class="h3">Edit Organization</span>
                 </div>
                 <div class="col-7 text-center m-3">
@@ -95,6 +100,10 @@
                             <div class="col-9">
                                 <input type="text" name="name" 
                                        id="name" class="form-control" th:value="${organization.name}"/>
+<!--                                <div th:if="${#fields.hasErrors('organization.name')}">
+                                <p th:each="error : ${#fields.errors('organization.name')}" class="alert alert-danger"
+                                  th:text="${error}"> Bad name </p>
+                              </div>-->
                             </div>
                         </div>
                         <div class="form-group row">
@@ -103,6 +112,10 @@
                             <div class="col-9">
                                 <input type="text" name="addressContact" 
                                        id="addressContact" class="form-control" th:value="${organization.addressContact}"/>
+<!--                                <div th:if="${#fields.hasErrors('organization.addressContact')}">
+                                <p th:each="error : ${#fields.errors('organization.addressContact')}" class="alert alert-danger"
+                                  th:text="${error}"> Bad address/contact </p>
+                              </div>-->
                             </div>
                         </div>
                         <div class="form-group row">

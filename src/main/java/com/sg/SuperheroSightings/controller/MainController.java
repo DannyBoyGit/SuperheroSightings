@@ -43,18 +43,6 @@ public class MainController {
     
     @GetMapping("/")
     public String index(Model model) {
-        
-//        ObjectMapper mapper = new ObjectMapper();
-//        String jsonSighting;
-//        try {
-//            jsonSighting = mapper.writeValueAsString(sighting.findFirst10ByOrderByDateDesc());
-//            model.addAttribute("jsonSighting", jsonSighting);
-//            System.out.println(jsonSighting);
-//
-//        } catch (JsonProcessingException ex) {
-//            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        
         model.addAttribute("sightings", sighting.findFirst10ByOrderByDateDesc());
         return "index";
     }

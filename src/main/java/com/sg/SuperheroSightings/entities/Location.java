@@ -15,6 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -26,14 +30,22 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
+    @NotBlank(message = "Name must not be empty.")
+    @Size(max = 50, message="Name must be less than 50 characters.")
     @Column(nullable = false)
     private String name;
     @Column
     private String description;
+    @NotBlank(message = "Address must not be empty.")
+    @Size(max = 100, message="Address must be less than 100 characters.")
     @Column(nullable = false)
     private String address;
+    @Min(value=-180, message="Longitude cannot be less than -180")
+    @Max(value=180, message="Longitude cannot be more than 180")
     @Column
     private String longitude;
+    @Min(value=-90, message="Latitude cannot be less than -90")
+    @Max(value=90, message="Latitude cannot be more than 90")
     @Column
     private String latitude;
     @OneToMany(mappedBy = "location")

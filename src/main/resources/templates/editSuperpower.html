@@ -36,8 +36,7 @@
                 <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
             </div>
         </div>
-
-          <div class="row m-4 border border-dark">
+          <div class="row m-4 border border-dark" >
                 <div class="col-3 text-center m-3">
                     <span class="h3">Edit Superpower</span>
                 </div>
@@ -49,6 +48,10 @@
                             <div class="col-9">
                                 <input type="text" name="name" 
                                        id="name" class="form-control" th:value="${superpower.name}"/>
+                            <div th:if="${#fields.hasErrors('superpower.name')}">
+                                <p th:each="error : ${#fields.errors('superpower.name')}" class="alert alert-danger"
+                                  th:text="${error}"> Bad name </p>
+                              </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -67,7 +70,6 @@
           
     </div>
     <!-- Optional JavaScript -->
-    
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
