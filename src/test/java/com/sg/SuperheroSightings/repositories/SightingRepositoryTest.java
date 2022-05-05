@@ -94,7 +94,7 @@ public class SightingRepositoryTest {
             sighting.setLocation(loc);
             
             times.add(time.plusHours(i));
-            sighting.setDate(time.plusHours(i));
+            sighting.setDate(time.minusHours(i));
             
             sightings.save(sighting);
         }
